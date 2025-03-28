@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeuSite - Melhores Ofertas e Recomendações</title>
+    <style>
+        :root {
+            --primary-color: #4e8cff;
+            --secondary-color: #f6f6f6;
+            --accent-color: #ffbb38;
+            --text-color: #333;
+            --light-text: #777;
+            --white: #fff;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f8f8;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .top-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .search-bar {
+            display: flex;
+            width: 50%;
+        }
+        
+        .search-bar input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px 0 0 5px;
+            outline: none;
+        }
+        
+        .search-bar button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+        
+        .user-actions {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .user-actions a {
+            color: var(--text-color);
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.8rem;
+        }
+        
+        .user-actions i {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+        
+        nav {
+            padding: 15px 5%;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+        
+        nav ul li a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: var(--primary-color);
+        }
+        
+        /* Banner */
+        .banner {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 50px 20px;
+            margin-bottom: 30px;
+        }
+        
+        .banner h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .banner p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 20px;
+        }
+        
+        .banner .btn {
+            background-color: var(--accent-color);
+            color: var(--text-color);
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            display: inline-block;
+        }
+        
+        /* Product Grid */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 3px;
+            background-color: var(--primary-color);
+            margin: 10px auto;
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .product-card {
+            background-color: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .product-image {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .product-info {
+            padding: 15px;
+        }
+        
+        .product-title {
+            font-size: 1rem;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+        
+        .product-price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .product-rating {
+            color: var(--accent-color);
+            margin-bottom: 15px;
+        }
+        
+        .product-description {
+            color: var(--light-text);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            height: 60px;
+            overflow: hidden;
+        }
+        
+        .product-card .btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+        }
+        
+        .product-card .btn-outline {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            margin-top: 10px;
+        }
+        
+        .product-card .btn:hover {
+            background-color: #3a7be0;
+        }
+        
+        .product-card .btn-outline:hover {
+            background-color: rgba(78, 140, 255, 0.1);
+        }
+        
+        /* Categories Section */
+        .categories {
+            margin-bottom: 50px;
+        }
+        
+        .category-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .category-card {
+            flex: 1;
+            min-width: 150px;
+            background-color: var(--white);
+            border-radius: 8px;
+            text-align: center;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            text-decoration: none;
+            color: var(--text-color);
+        }
+        
+        .category-card:hover {
+            transform: translateY(-5px);
+            transition: transform 0.3s;
+        }
+        
+        .category-icon {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .category-name {
+            font-weight: 500;
+        }
+        
+        /* Blog Posts */
+        .blog-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .blog-card {
+            background-color: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .blog-image {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+        }
+        
+        .blog-content {
+            padding: 20px;
+        }
+        
+        .blog-date {
+            color: var(--light-text);
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .blog-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .blog-excerpt {
+            color: var(--light-text);
+            margin-bottom: 15px;
+        }
+        
+        .read-more {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        /* Features Section */
+        .features {
+            background-color: var(--secondary-color);
+            padding: 50px 0;
+            margin-bottom: 50px;
+        }
+        
+        .features-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        
+        .feature-card {
+            flex: 1;
+            min-width: 250px;
+            text-align: center;
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .feature-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .feature-desc {
+            color: var(--light-text);
+        }
+        
+        /* Newsletter */
+        .newsletter {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 50px 0;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .newsletter h2 {
+            margin-bottom: 20px;
+        }
+        
+        .newsletter p {
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+        
+        .newsletter-form {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .newsletter-form input {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 5px 0 0 5px;
+            outline: none;
+        }
+        
+        .newsletter-form button {
+            background-color: var(--accent-color);
+            color: var(--text-color);
+            border: none;
+            padding: 15px 30px;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        /* About Section */
+        .about-section {
+            padding: 50px 0;
+            margin-bottom: 50px;
+        }
+        
+        .about-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            align-items: center;
+        }
+        
+        .about-text {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .about-image {
+            flex: 1;
+            min-width: 300px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .about-image img {
+            width: 100%;
+            display: block;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #222;
+            color: white;
+            padding: 50px 0 20px;
+        }
+        
+        .footer-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-col {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .footer-title {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .footer-title:after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 2px;
+            background-color: var(--primary-color);
+            margin-top: 10px;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #bbb;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-icons a {
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #444;
+        }
+        
+        /* Deal Badge */
+        .deal-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--accent-color);
+            color: var(--text-color);
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 0.8rem;
+        }
+        
+        /* Responsive Designs */
+        @media (max-width: 768px) {
+            .top-header {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .search-bar {
+                width: 100%;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+            
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            
+            .blog-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .user-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .banner h1 {
+                font-size: 2rem;
+            }
+            
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .newsletter-form {
+                flex-direction: column;
+            }
+            
+            .newsletter-form input,
+            .newsletter-form button {
+                width: 100%;
+                border-radius: 5px;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+    <!-- Ícones FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="top-header">
+            <div class="logo">MeuSite</div>
+            <div class="search-bar">
+                <input type="text" placeholder="O que você procura?">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+            <div class="user-actions">
+                <a href="#">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Sobre Nós</span>
+                </a>
+                <a href="#">
+                    <i class="fas fa-star"></i>
+                    <span>Melhores Ofertas</span>
+                </a>
+                <a href="#">
+                    <i class="fas fa-envelope"></i>
+                    <span>Contato</span>
+                </a>
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#">Início</a></li>
+                <li><a href="#">Categorias</a></li>
+                <li><a href="#">Ofertas do Dia</a></li>
+                <li><a href="#">Reviews</a></li>
+                <li><a href="#">Guias de Compra</a></li>
+                <li><a href="#">Blog</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="banner">
+        <h1>As Melhores Recomendações de Produtos</h1>
+        <p>Encontre análises imparciais, comparativos e as melhores ofertas em um só lugar</p>
+        <a href="#" class="btn">Ver Ofertas Exclusivas</a>
+    </section>
+
+    <section class="categories container">
+        <h2 class="section-title">Categorias Populares</h2>
+        <div class="category-container">
+            <a href="#" class="category-card">
+                <div class="category-icon">
+                    <i class="fas fa-laptop"></i>
+                </div>
+                <div class="category-name">Eletrônicos</div>
+            </a>
+            <a href="#" class="category-card">
+                <div class="category-icon">
+                    <i class="fas fa-tshirt"></i>
+                </div>
+                <div class="category-name">Moda</div>
+            </a>
+            <a href="#" class="category-card">
+                <div class="category-icon">
+                    <i class="fas fa-home"></i>
+                </div>
+                <div class="category-name">Casa</div>
+            </a>
+            <a href="#" class="category-card">
+                <div class="category-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <div class="category-name">Celulares</div>
+            </a>
+            <a href="#" class="category-card">
+                <div class="category-icon">
+                    <i class="fas fa-dumbbell"></i>
+                </div>
+                <div class="category-name">Fitness</div>
+            </a>
+        </div>
+    </section>
+
+    <section class="container">
+        <h2 class="section-title">Produtos em Destaque</h2>
+        <div class="product-grid">
+            <!-- Produto 1 -->
+            <div class="product-card">
+                <img src="/api/placeholder/400/320" alt="placeholder" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">Smartphone Premium X</h3>
+                    <div class="product-price">R$ 1.899,00</div>
+                    <div class="product-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <span> 4.5/5</span>
+                    </div>
+                    <p class="product-description">O melhor smartphone da categoria com câmera de alta resolução e bateria de longa duração.</p>
+                    <a href="#" class="btn">Ver na Loja</a>
+                    <a href="#" class="btn btn-outline">Ver Análise Completa</a>
+                </div>
+            </div>
+            
+            <!-- Produto 2 -->
+            <div class="product-card">
+                <img src="/api/placeholder/400/320" alt="placeholder" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">Notebook Ultra Plus</h3>
+                    <div class="product-price">R$ 3.599,00</div>
+                    <div class="product-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <span> 4.0/5</span>
+                    </div>
+                    <p class="product-description">Notebook potente com processador de última geração, ideal para trabalho e jogos.</p>
+                    <a href="#" class="btn">Ver na Loja</a>
+                    <a href="#" class="btn btn-outline">Ver Análise Completa</a>
+                </div>
+            </div>
+            
+            <!-- Produto 3 -->
+            <div class="product-card">
+                <img src="/api/placeholder/400/320" alt="placeholder" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">Fones de Ouvido Bluetooth</h3>
+                    <div class="product-price">R$ 299,00</div>
+                    <div class="product-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <span> 5.0/5</span>
+                    </div>
+                    <p class="product-description">Fones com cancelamento de ruído e qualidade de áudio excepcional. Nossa escolha top!</p>
+                    <a href="#" class="btn">Ver na Loja</a>
+                    <a href="#" class="btn btn-outline">Ver Análise Completa</a>
+                </div>
+            </div>
+            
+            <!-- Produto 4 -->
+            <div class="product-card">
+                <img src="/api/placeholder/400/320" alt="placeholder" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">Smart TV 4K 55"</h3>
+                    <div class="product-price">R$ 2.799,00</div>
+                    <div class="product-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <span> 4.5/5</span>
+                    </div>
+                    <p class="product-description">TV com resolução 4K, sistema operacional inteligente e ótima qualidade de imagem.</p>
+                    <a href="#" class="btn">Ver na Loja</a>
+                    <a href="#" class="btn btn-outline">Ver Análise Completa</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container">
+        <h2 class="section-title">Ofertas do Dia</h2>
+        <div class="product-grid">
+            <!-- Oferta 1 -->
+            <div class="product-card" style="position: relative;">
+                <span class="deal-badge">-30%</span>
+                <img src="/api/placeholder/400/320" alt="placeholder" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">Smartwatch XTech Pro</h3>
+                    <div class="product-price">
+                        <span style="text-decoration: line-through; color: #999; font-size: 0.9rem;">R$ 599,00</span>
+                        R$ 419,00
+                    </div>
+                    <div class="product-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <span> 4.0/5</span>
+                    </div>
+                    <p class="product-description">Monitor cardíaco, GPS e mais de 20 modos de exercício. Oferta por tempo limitado!</p>
+                    <a href="#" class="btn">Aproveitar Oferta</a>
+                </div>
+            </div>
+            
+            <!-- Oferta 2 -->
+            <div class="product-card" style="position: relative;">
+                <span class="deal-badge">-20%</span>
+                <img src="/api/placeholder/400/320" alt="placeholder" class="product-image">
+                <div class="product-info">
+                    <h3 class="product-title">Câmera DSLR HD1080</h3>
+                    <div class="product-price">
+                        <span style="text-decoration: line-through; color: #999; font-size: 0.9rem;">R$ 2.499,00</span>
+                        R$ 1.999,00
+                    </div>
+                    <div class="product-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <span> 4.5/5</span>
+                    </div>
+                    <p class="product-description">Qualidade profissional de imagem, zoom óptico de 20x e gravação em 4K. Desconto especial!</p>
+                    <a href="#" class="btn">Aproveitar Oferta</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container">
+        <h2 class="section-title">Nosso Blog</h2>
+        <div class="blog-container">
+            <!-- Post 1 -->
+            <div class="blog-card">
+                <img src="/api/placeholder/400/320" alt="placeholder" class="blog-image">
+                <div class="blog-content">
+                    <div class="blog-date">24 de Março, 2025</div>
+                    <h3 class="blog-title">Como escolher o melhor smartphone em 2025</h3>
+                    <p class="blog-excerpt">Confira nosso guia completo com os principais fatores a considerar na hora de comprar um novo smartphone.</p>
+                    <a href="#" class="read-more">Ler mais →</a>
+                </div>
+            </div>
+            
+            <!-- Post 2 -->
+            <div class="blog-card">
+                <img src="/api/placeholder/400/320" alt="placeholder" class="blog-image">
+                <div class="blog-content">
+                    <div class="blog-date">20 de Março, 2025</div>
+                    <h3 class="blog-title">10 gadgets que vão revolucionar sua casa em 2025</h3>
+                    <p class="blog-excerpt">Descubra as mais recentes inovações em tecnologia doméstica que estão transformando o conceito de casa inteligente.</p>
+                    <a href="#" class="read-more">Ler mais →</a>
+                </div>
+            </div>
+            
+            <!-- Post 3 -->
+            <div class="blog-card">
+                <img src="/api/placeholder/400/320" alt="placeholder" class="blog-image">
+                <div class="blog-content">
+                    <div class="blog-date">15 de Março, 2025</div>
+                    <h3 class="blog-title">Comparativo: As melhores TVs para assistir esportes</h3>
+                    <p class="blog-excerpt">Analisamos os principais modelos do mercado para descobrir qual TV oferece a melhor experiência para fãs de esportes.</p>
+                    <a href="#" class="read-more">Ler mais →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">Por que confiar em nossas recomendações?</h2>
+            <div class="features-container">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-clipboard-check"></i>
+                    </div>
+                    <h3 class="feature-title">Análises Imparciais</h3>
+                    <p class="feature-desc">Testamos todos os produtos recomendados e compartilhamos nossa opinião sincera.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-tags"></i>
+                    </div>
+                    <h3 class="feature-title">Melhores Preços</h3>
+                    <p class="feature-desc">Monitoramos preços diariamente para garantir que você encontre as melhores ofertas.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    <h3 class="feature-title">Experiência Real</h3>
+                    <p class="feature-desc">Nossa equipe de especialistas avalia cada produto com critérios rigorosos.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about-section container">
+        <h2 class="section-title">Sobre Nós</h2>
+        <div class="about-content">
+            <div class="about-text">
+                <p>Somos uma equipe de especialistas em tecnologia, moda, decoração e diversos outros nichos, dedicados a encontrar os melhores produtos do mercado.</p>
+                <p style="margin-top: 15px;">Nosso objetivo é fornecer recomendações honestas e análises detalhadas para ajudar nossos leitores a tomarem decisões de compra mais inteligentes, economizando tempo e dinheiro.</p>
+                <p style="margin-top: 15px;">Testamos pessoalmente cada produto recomendado em nosso site e atualizamos regularmente nossas análises para garantir que as informações estejam sempre precisas e atualizadas.</p>
+                <p style="margin-top: 15px;">Somos afiliados das principais lojas online e podemos receber uma pequena comissão quando você compra através dos nossos links, sem nenhum custo adicional para você.</p>
